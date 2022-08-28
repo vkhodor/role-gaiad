@@ -1,0 +1,4 @@
+---
+- name: Include OS releated tasks
+  include_tasks: ubuntu.yml
+  when: ansible_os_family == 'Debian'
