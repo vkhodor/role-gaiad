@@ -14,3 +14,6 @@
     clone: yes
     update: yes
     dest: '/tmp/gaia_{{ gaia_version }}'
+
+- name: install gaiad
+  shell: 'cd /tmp/gaia_{{ gaia_version }}; make install; cp /root/go/bin/gaiad /usr/local/bin/'
