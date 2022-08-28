@@ -4,6 +4,7 @@
     name:
       - make
       - gcc
+      - git
     state: present
 
 - name: checkout gaia
