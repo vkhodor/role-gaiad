@@ -7,10 +7,6 @@
       - git
     state: present
 
-- name: Ignore host key checking
-  set_fact:
-    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
-
 - name: checkout gaia
   git:
     repo: 'git@github.com:cosmos/gaia.git'
@@ -18,3 +14,4 @@
     clone: yes
     update: yes
     dest: '/tmp/gaia_{{ gaia_version }}'
+    accept_hostkey: yes
