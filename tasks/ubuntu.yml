@@ -6,3 +6,10 @@
       - gcc
     state: present
 
+- name: checkout gaia
+  git:
+    repo: 'git@github.com:cosmos/gaia.git'
+    version: '{{ gaia_version }}'
+    clone: yes
+    update: yes
+    dest: '/tmp/gaia_{{ gaia_version }}'
