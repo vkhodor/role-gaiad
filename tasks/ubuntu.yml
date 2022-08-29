@@ -46,4 +46,4 @@
     dest: '/etc/systemd/system/gaiad.service'
   notify:
     - daemon_reload
-    - daemon_enable
+    - enable_gaiad
