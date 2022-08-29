@@ -17,3 +17,29 @@
 
 - name: install gaiad
   shell: '. /etc/profile.d/go.sh; cd /tmp/gaia_{{ gaia_version }}; make install; cp /root/go/bin/gaiad /usr/local/bin/'
+
+- name: create gaia user
+  user:
+    name: gaia
+    comment: 'Gaia Service User'
+
+- name: copy README.md
+  copy:
+    src: 'README.md'
+    dest: '/home/gaia/README.md'
+    mode: 0644
+    owner: 'gaia'
+    group: 'gaia'
+
+- name: copy init script
+  copy:
+    src: 'gaiad_init.sh'
+    dest: '/home/gaia/gaiad_init.sh'
+    mode: 0755
+    owner: 'gaia'
+    group: 'gaia'
+
+- name: copy systemd unit for gaiad
+  template:
+    src: 'init.j2'
+    dest: '/etc/systemd/system/gaiad.service'
