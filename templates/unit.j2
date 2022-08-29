@@ -3,12 +3,11 @@ Description=gaiad service
 After=network-online.target
 
 [Service]
-User=root
-ExecStart=/usr/bin/gaiad start --x-crisis-skip-assert-invariants --home \$DAEMON_HOME
+User=gaia
+ExecStart=/usr/local/bin/gaiad start --x-crisis-skip-assert-invariants --home /home/gaia
 Restart=always
 RestartSec=3
 LimitNOFILE=4096
-Environment='DAEMON_HOME=/home/gaia'
 
 [Install]
 WantedBy=multi-user.target
