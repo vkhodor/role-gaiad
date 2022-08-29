@@ -1,2 +1,10 @@
 ---
 # handlers file for gaiad
+- name: daemon_reload
+  systemd:
+    daemon_reload: yes
+
+- name: enable_gaiad
+  systemd:
+    name: gaiad
+    enabled: yes
