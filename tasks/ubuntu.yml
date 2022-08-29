@@ -16,4 +16,4 @@
     dest: '/tmp/gaia_{{ gaia_version }}'
 
 - name: install gaiad
-  shell: 'cd /tmp/gaia_{{ gaia_version }}; make install; cp /root/go/bin/gaiad /usr/local/bin/'
+  shell: '. /etc/profile.d/go.sh; cd /tmp/gaia_{{ gaia_version }}; make install; cp /root/go/bin/gaiad /usr/local/bin/'
