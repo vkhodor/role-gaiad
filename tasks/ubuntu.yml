@@ -47,3 +47,13 @@
   notify:
     - daemon_reload
     - enable_gaiad
+
+- name: remove no need packages
+  apt:
+    name:
+      - gcc
+      - make
+      - git
+    state: absent
+
+
