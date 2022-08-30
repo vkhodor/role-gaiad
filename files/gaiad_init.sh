@@ -13,7 +13,8 @@ CUSTOM_MONIKER="$1"
 BLOCK_HEIGHT="$2"
 BLOCK_HASH="$3"
 GENESIS_FILENAME="genesis.cosmoshub-4.json"
-GENESIS_URL="https://github.com/cosmos/mainnet/raw/master/${GENESIS_FILENAME}.gz"
+GENESIS_URL="https://raw.githubusercontent.com/cosmos/mainnet/master/genesis/${GENESIS_FILENAME}.gz"
+
 
 if [[ -d "$HOME/.gaia/config" ]]; then
   echo "Gaia is already inited."
