@@ -34,11 +34,14 @@
 
 - name: copy init script
   copy:
-    src: 'gaiad_init.sh'
-    dest: '/home/gaia/gaiad_init.sh'
+    src: '{{ item }}'
+    dest: '/home/gaia/{{ item }}'
     mode: 0755
     owner: 'gaia'
     group: 'gaia'
+  with_items:
+    - gaiad_init.sh
+    - gaiad_test_init.sh
 
 - name: copy systemd unit for gaiad
   template:
