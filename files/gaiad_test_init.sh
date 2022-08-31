@@ -1,17 +1,29 @@
 #!/bin/bash -i
 
 function usage() {
-  echo "Usage: $0 <custom moniker> <block height> <block hash>"
+  echo "Usage: $0 <custom moniker>"
   exit 1
 }
 
-if [ "$1" == "" ] || [ "$2" == "" ] || [ "$3" == "" ]; then
+function get_last_block() {
+  curl seed-01.theta-testnet.polypore.xyz:26657/status | \
+  jq '.result.sync_info.latest_block_height, .result.sync_info.latest_block_hash' 2> /dev/null | \
+  sed 's/\"//' | sed 's/\"$/ /' | tr -d '\n'
+}
+
+if [ "$1" == "" ]; then
   usage
 fi
 
+last_block_info=$(get_last_block)
+
 NODE_MONIKER="$1"
-TRUST_HEIGHT="$2"
-TRUST_HASH="$3"
+TRUST_HEIGHT=$(echo $last_block_info | awk '{print $1}')
+TRUST_HASH="$(echo $last_block_info | awk '{print $2}')
+
+echo "[INFO] NODE_MONIKER = $NODE_MONIKER"
+echo "[INFO] TRUST_HEIGHT = $TRUST_HEIGHT"
+echo "[INFO] TRUST_HASH = $TRUST_HASH"
 
 
 ##### CONFIGURATION ###
@@ -42,17 +54,16 @@ $BINARY init $NODE_MONIKER --home $NODE_HOME --chain-id=$CHAIN_ID
 
 if $STATE_SYNC; then
     echo "enabling state sync..."
+    sed -i "s/minimum-gas-prices = \"\"/minimum-gas-prices = \"0.001uatom\"/" $NODE_HOME/config/app.toml
     sed -i -e '/enable =/ s/= .*/= true/' $NODE_HOME/config/config.toml
     sed -i -e "/trust_height =/ s/= .*/= $TRUST_HEIGHT/" $NODE_HOME/config/config.toml
     sed -i -e "/trust_hash =/ s/= .*/= \"$TRUST_HASH\"/" $NODE_HOME/config/config.toml
     sed -i -e "/rpc_servers =/ s/= .*/= \"$SYNC_RPC\"/" $NODE_HOME/config/config.toml
+    sed -i "s/seeds = \"\"/seeds = \"$SEEDS\"/" $NODE_HOME/config/config.toml
+    sed -i "s/unsafe = false/unsafe = true/" $NODE_HOME/config/config.toml
 else
-    echo "disabling state sync..."
+    echo 'disabling state sync...'
 fi
 
-echo "copying over genesis file..."
+echo 'copying over genesis file...'
 cp genesis.json $NODE_HOME/config/genesis.json
-
-
-#echo "sudo journalctl -fu $NODE_MONIKER.service"
-#echo "***********************"
