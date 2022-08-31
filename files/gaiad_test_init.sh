@@ -41,7 +41,7 @@ export SYNC_RPC="rpc.sentry-01.theta-testnet.polypore.xyz:26657,rpc.sentry-02.th
 
 ##############
 
-cd /home/gaia/
+cd $HOME
 echo "getting genesis file"
 wget $GENESIS_ZIPPED_URL
 gunzip genesis.json.gz
