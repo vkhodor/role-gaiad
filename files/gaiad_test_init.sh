@@ -6,8 +6,8 @@ function usage() {
 }
 
 function get_last_block() {
-  curl seed-01.theta-testnet.polypore.xyz:26657/status | \
-  jq '.result.sync_info.latest_block_height, .result.sync_info.latest_block_hash' 2> /dev/null | \
+  curl seed-01.theta-testnet.polypore.xyz:26657/status  2> /dev/null | \
+  jq '.result.sync_info.latest_block_height, .result.sync_info.latest_block_hash' | \
   sed 's/\"//' | sed 's/\"$/ /' | tr -d '\n'
 }
 
@@ -19,7 +19,7 @@ last_block_info=$(get_last_block)
 
 NODE_MONIKER="$1"
 TRUST_HEIGHT=$(echo $last_block_info | awk '{print $1}')
-TRUST_HASH="$(echo $last_block_info | awk '{print $2}')
+TRUST_HASH=$(echo $last_block_info | awk '{print $2}')
 
 echo "[INFO] NODE_MONIKER = $NODE_MONIKER"
 echo "[INFO] TRUST_HEIGHT = $TRUST_HEIGHT"
