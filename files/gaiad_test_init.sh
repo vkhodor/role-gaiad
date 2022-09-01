@@ -34,6 +34,12 @@ export CHAIN_ID=theta-testnet-001
 export BINARY=gaiad
 export SEEDS="639d50339d7045436c756a042906b9a69970913f@seed-01.theta-testnet.polypore.xyz:26656,3e506472683ceb7ed75c1578d092c79785c27857@seed-02.theta-testnet.polypore.xyz:26656"
 
+
+if [[ -d "$NODE_HOME/config" ]]; then
+  echo "Gaia is already inited."
+  exit 2
+fi
+
 ##### OPTIONAL STATE SYNC CONFIGURATION ###
 
 export STATE_SYNC=true # if you set this to true, please have TRUST HEIGHT and TRUST HASH and RPC configured
@@ -60,7 +66,6 @@ if $STATE_SYNC; then
     sed -i -e "/trust_hash =/ s/= .*/= \"$TRUST_HASH\"/" $NODE_HOME/config/config.toml
     sed -i -e "/rpc_servers =/ s/= .*/= \"$SYNC_RPC\"/" $NODE_HOME/config/config.toml
     sed -i "s/seeds = \"\"/seeds = \"$SEEDS\"/" $NODE_HOME/config/config.toml
-    sed -i "s/unsafe = false/unsafe = true/" $NODE_HOME/config/config.toml
 else
     echo 'disabling state sync...'
 fi
