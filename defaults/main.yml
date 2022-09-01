@@ -1,2 +1,3 @@
 ---
 gaia_version: 'v7.0.3'
+gaiad_extra_args: '--log_level debug'

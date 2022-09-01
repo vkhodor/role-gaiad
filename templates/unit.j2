@@ -4,7 +4,7 @@ After=network-online.target
 
 [Service]
 User=gaia
-ExecStart=/usr/local/bin/gaiad start --x-crisis-skip-assert-invariants --home /home/gaia/.gaia
+ExecStart=/usr/local/bin/gaiad start --x-crisis-skip-assert-invariants --home /home/gaia/.gaia {{ gaiad_extra_args }}
 Restart=always
 RestartSec=3
 LimitNOFILE=4096
